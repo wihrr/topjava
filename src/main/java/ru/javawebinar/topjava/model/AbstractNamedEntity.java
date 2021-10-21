@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava.model;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class AbstractNamedEntity extends AbstractBaseEntity {
 
     protected String name;
