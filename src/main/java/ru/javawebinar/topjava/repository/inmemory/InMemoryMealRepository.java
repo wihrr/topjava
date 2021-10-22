@@ -18,6 +18,12 @@ public class InMemoryMealRepository implements MealRepository {
     private final AtomicInteger counter = new AtomicInteger(0);
     private User user;
 
+    public InMemoryMealRepository(User user) {
+        this.user = user;
+    }
+
+    public InMemoryMealRepository()
+
     {
         MealsUtil.meals.forEach(this::save);
     }
