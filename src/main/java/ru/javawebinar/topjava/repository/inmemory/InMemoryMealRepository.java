@@ -4,9 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.MealsUtil;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +22,7 @@ public class InMemoryMealRepository implements MealRepository {
         this.user = user;
     }
 
-    public InMemoryMealRepository()
-
-    {
+    public InMemoryMealRepository() {
 //        MealsUtil.meals.forEach(this::save);
     }
 
@@ -37,7 +33,7 @@ public class InMemoryMealRepository implements MealRepository {
 //            meal.setUserId(user.getId());
             return meal;
         }
-        if(!meal.getUserId().equals(user.getId())){
+        if (!meal.getUserId().equals(user.getId())) {
             return null;
         }
         // handle case: update, but not present in storage
@@ -47,8 +43,8 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public boolean delete(int id, int userId) {
         Meal meal = repository.get(id);
-        if (meal.getUserId().equals(user.getId())){
-        return repository.remove(id) != null;
+        if (meal.getUserId().equals(user.getId())) {
+            return repository.remove(id) != null;
         } else
             return false;
     }
@@ -64,11 +60,10 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        List<Meal> currentUserMeal = repository.values().stream()
+        return repository.values().stream()
                 .filter(meal -> meal.getUserId().equals(user.getId()))
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
-        return currentUserMeal;
     }
 }
 
