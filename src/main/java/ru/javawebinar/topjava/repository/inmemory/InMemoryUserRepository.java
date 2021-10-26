@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.repository.inmemory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,6 @@ public class InMemoryUserRepository implements UserRepository {
                 .filter(user -> user.getEmail()
                         .equals(email))
                 .findFirst()
-                .get();
+                .orElseThrow(() -> new NotFoundException("There is no such user with email" + email));
     }
 }
