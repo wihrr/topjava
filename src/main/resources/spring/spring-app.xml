@@ -15,4 +15,14 @@
 
     <context:component-scan base-package="ru.javawebinar.**.web"/>
 
+    <bean class="ru.javawebinar.topjava.repository.inmemory.InMemoryMealRepository" id="inMemoryMealRepository"/>
+
+    <bean class="ru.javawebinar.topjava.service.MealService" id="service">
+            <constructor-arg name="repository" ref="inMemoryMealRepository"/>
+    </bean>
+
+    <bean class="ru.javawebinar.topjava.web.meal.MealRestController" id="mealRestController" >
+        <constructor-arg name="service" ref="service"/>
+    </bean>
+
 </beans>
