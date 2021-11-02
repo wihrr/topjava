@@ -14,6 +14,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static ru.javawebinar.topjava.MealTestData.*;
 
 import static org.junit.Assert.assertThrows;
@@ -82,6 +83,7 @@ public class MealServiceTest {
     public void update() {
         Meal updated = getUpdated();
         service.update(updated,USER_ID);
+        assertThat(service.get(MEAL_ID, USER_ID)).usingRecursiveComparison().isEqualTo(getUpdated());
         assertMatch(service.get(MEAL_ID, USER_ID), getUpdated());
     }
 
