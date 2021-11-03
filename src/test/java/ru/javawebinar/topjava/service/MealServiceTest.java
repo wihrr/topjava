@@ -14,8 +14,19 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static ru.javawebinar.topjava.MealTestData.*;
+import static ru.javawebinar.topjava.MealTestData.userMeal1;
+import static ru.javawebinar.topjava.MealTestData.userMeal2;
+import static ru.javawebinar.topjava.MealTestData.userMeal3;
+import static ru.javawebinar.topjava.MealTestData.userMeal4;
+import static ru.javawebinar.topjava.MealTestData.userMeal5;
+import static ru.javawebinar.topjava.MealTestData.userMeal6;
+import static ru.javawebinar.topjava.MealTestData.userMeal7;
+import static ru.javawebinar.topjava.MealTestData.adminMeal1;
+import static ru.javawebinar.topjava.MealTestData.adminMeal2;
+import static ru.javawebinar.topjava.MealTestData.MEAL_ID;
+import static ru.javawebinar.topjava.MealTestData.assertMatch;
+import static ru.javawebinar.topjava.MealTestData.getNew;
+import static ru.javawebinar.topjava.MealTestData.getUpdated;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.NOT_FOUND;
@@ -82,8 +93,8 @@ public class MealServiceTest {
     @Test
     public void update() {
         Meal updated = getUpdated();
-        service.update(updated,USER_ID);
-        assertThat(service.get(MEAL_ID, USER_ID)).usingRecursiveComparison().isEqualTo(getUpdated());
+        service.update(updated, USER_ID);
+        Meal meal = service.get(MEAL_ID, USER_ID);
         assertMatch(service.get(MEAL_ID, USER_ID), getUpdated());
     }
 
