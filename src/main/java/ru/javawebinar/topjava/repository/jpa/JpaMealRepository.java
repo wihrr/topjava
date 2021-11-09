@@ -32,6 +32,7 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
+    @Transactional
     public boolean delete(int id, int userId) {
         return entityManager.createNamedQuery(Meal.DELETE)
                 .setParameter("id", id)
@@ -42,14 +43,9 @@ public class JpaMealRepository implements MealRepository {
     @Override
     public Meal get(int id, int userId) {
         Meal meal = entityManager.find(Meal.class, id);
-        if (meal.getUser().getId() == userId && meal.getUser().getId() != null) {
+        if (meal != null && meal.getUser().getId() == userId) {
             return meal;
         } else throw new NotFoundException("There is no such meal");
-
-//        return  (Meal)entityManager.createNamedQuery(Meal.BY_ID)
-//                .setParameter("id", id)
-//                .setParameter("userId", userId)
-//                .getSingleResult();
     }
 
     @Override
