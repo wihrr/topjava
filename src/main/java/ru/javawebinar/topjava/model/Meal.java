@@ -4,7 +4,6 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -18,7 +17,7 @@ import java.time.LocalTime;
         @NamedQuery(name = Meal.FOR_THE_PERIOD, query = "SELECT m FROM Meal m WHERE m.user.id=:userId  AND m.dateTime >= :startDateTime AND m.dateTime < :endDateTime ORDER BY m.dateTime DESC")
 })
 @Entity
-@Table(name = "meal")
+@Table(name = "meals")
 public class Meal extends AbstractBaseEntity {
 
     public static final String DELETE = "Meal.delete";
