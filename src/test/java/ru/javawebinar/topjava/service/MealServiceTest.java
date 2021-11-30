@@ -119,7 +119,6 @@ public class MealServiceTest {
         service.update(updated, USER_ID);
         MATCHER.assertMatch(service.get(MEAL1_ID, USER_ID), getUpdated());
     }
-
     @Test
     public void updateNotOwn() {
         NotFoundException exception = assertThrows(NotFoundException.class, () -> service.update(getUpdated(), ADMIN_ID));
