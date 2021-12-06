@@ -32,4 +32,8 @@ public class MatcherFactory<T> {
     public void assertMatch(Iterable<T> actual, Iterable<T> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields(fieldsToIgnore).isEqualTo(expected);
     }
+
+    public void assertMatchCollectionElements(Iterable<T> actual, Iterable<T> expected) {
+        assertThat(actual).hasSameSizeAs(expected);
+    }
 }
