@@ -8,21 +8,22 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 @Transactional(readOnly = true)
 public class JdbcUserRepository implements UserRepository {
 
     private static final BeanPropertyRowMapper<User> ROW_MAPPER = BeanPropertyRowMapper.newInstance(User.class);
-    private static final BeanPropertyRowMapper<Role> ROLES_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Role.class);
+    private static final BeanPropertyRowMapper <Role> ROLES_ROW_MAPPER = BeanPropertyRowMapper.newInstance(Role.class);
     private final JdbcTemplate jdbcTemplate;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -47,6 +48,7 @@ public class JdbcUserRepository implements UserRepository {
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(parameterSource);
             user.setId(newKey.intValue());
+            insertRoles(user);
         } else if (namedParameterJdbcTemplate.update("""
                    UPDATE users SET name=:name, email=:email, password=:password, 
                    registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id
@@ -71,6 +73,11 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public User getByEmail(String email) {
         return jdbcTemplate.queryForObject("SELECT DISTINCT users.* FROM users LEFT OUTER JOIN user_roles ON user_roles.user_id = users.id WHERE email=?", ROW_MAPPER, email);
+
+//        List<Role> roles= jdbcTemplate.query("SELECT role FROM user_roles WHERE user_id=?", ((resultSet, rowNum) -> Role.valueOf(resultSet.getString("role"), user.getId())));
+
+
+//        return jdbcTemplate.queryForObject("SELECT * FROM users INNER JOIN FETCH users.role WHERE user_roles.user_id = users.id AND email=?", ROW_MAPPER, email);
 //        List<User> users = jdbcTemplate.query("SELECT * FROM users INNER JOIN user_roles ON user_roles.user_id = users.id WHERE email=?", ROW_MAPPER, email);
 //        return DataAccessUtils.singleResult(users);
     }
@@ -85,5 +92,10 @@ public class JdbcUserRepository implements UserRepository {
                 .addValue("user_id",user.getId())
                 .addValue("role", user.getRoles());
         return user;
+    }
+
+    public void insertRoles(User user) {
+        Set<Role> roles = user.getRoles();
+        Iterator<Role> iterator= roles.iterator();
     }
 }
