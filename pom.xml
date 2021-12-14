@@ -143,6 +143,22 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring-data-jpa.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.simpleflatmapper</groupId>
+            <artifactId>sfm-springjdbc</artifactId>
+            <version>8.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.javatuples</groupId>
+            <artifactId>javatuples</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.simpleflatmapper</groupId>
+            <artifactId>sfm-tuples</artifactId>
+            <version>8.2.3</version>
+            <scope>test</scope>
+        </dependency>
 
         <!--- ORM -->
         <dependency>
